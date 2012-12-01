@@ -1,0 +1,47 @@
+VERBOSE=yes
+DEFAULT=$HOME/Mail
+MAILDIR=$HOME/Mail
+LOGFILE=$HOME/.procmail.log
+
+#:0
+#*^content-Type:
+#{
+        # backup the complete mail first..
+        # you can leave out this part if you don't want a backup of the complete mail
+#        :0c:
+#        $HOME/mail_backup
+
+        # Now the actual unpacking part
+        #
+        # this is the place where the attachments will be unpacked to
+#        METAMAIL_TMPDIR=$HOME/Mail_attr
+
+        # forward to metamail
+#        :0fw
+#        | uudeview -i -a 
+#}
+
+#
+#  Used for keeping a backup of each days mail.
+#
+#BACKUP=$MAILDIR/backup
+#TODAY=`date +%d-%m-%Y`
+
+#
+#  Save a copy of each email received into a file of the form
+# '~/Mail/backup/dd-mm-yyyy'.
+#
+#:0 c:
+#$BACKUP/$TODAY
+
+:0
+*^content-Type:
+{
+	# Now the actual unpacking part
+	# forward to uudeview and unpack attachments to $HOME/attachments
+	:0fw
+	#| /opt/local/bin/uudeview -a -i -p $HOME/Mail_attr/ - 
+	| /usr/bin/newlisp ~/getmail.lsp -
+}
+
+
